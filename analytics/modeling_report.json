@@ -1,0 +1,117 @@
+{
+  "class_balance": {
+    "not_survived": 549,
+    "survived": 342,
+    "survived_share": 0.3838
+  },
+  "train_size": 712,
+  "test_size": 179,
+  "train_survived_share": 0.3834,
+  "test_survived_share": 0.3855,
+  "preprocessing": {
+    "numeric": "median impute + standard scale, fit on train only",
+    "categorical": "most-frequent impute + one-hot, fit on train only",
+    "why_it_differs_from_eda": "EDA drops rare missing rows and the deck column for the story. The saved model must score raw rows, so imputation stays inside the pipeline instead of deleting rows before the split."
+  },
+  "classifiers": [
+    {
+      "model": "logistic_regression",
+      "confusion_matrix": [
+        [
+          98,
+          12
+        ],
+        [
+          23,
+          46
+        ]
+      ],
+      "accuracy": 0.8045,
+      "precision": 0.7931,
+      "recall": 0.6667,
+      "f1": 0.7244,
+      "auc": 0.8437
+    },
+    {
+      "model": "decision_tree",
+      "confusion_matrix": [
+        [
+          95,
+          15
+        ],
+        [
+          18,
+          51
+        ]
+      ],
+      "accuracy": 0.8156,
+      "precision": 0.7727,
+      "recall": 0.7391,
+      "f1": 0.7556,
+      "auc": 0.7967
+    },
+    {
+      "model": "random_forest",
+      "confusion_matrix": [
+        [
+          98,
+          12
+        ],
+        [
+          21,
+          48
+        ]
+      ],
+      "accuracy": 0.8156,
+      "precision": 0.8,
+      "recall": 0.6957,
+      "f1": 0.7442,
+      "auc": 0.8271
+    }
+  ],
+  "imbalance": [
+    {
+      "model": "logreg_baseline",
+      "precision": 0.7931,
+      "recall": 0.6667,
+      "f1": 0.7244
+    },
+    {
+      "model": "logreg_class_weight",
+      "precision": 0.7297,
+      "recall": 0.7826,
+      "f1": 0.7552
+    },
+    {
+      "model": "logreg_smote_train_only",
+      "precision": 0.7397,
+      "recall": 0.7826,
+      "f1": 0.7606,
+      "train_rows_before": 712,
+      "train_rows_after_smote": 878
+    }
+  ],
+  "random_forest_search": {
+    "best_params": {
+      "model__max_depth": 8,
+      "model__max_features": "sqrt",
+      "model__n_estimators": 200
+    },
+    "best_cv_f1": 0.7479,
+    "oob_score": 0.8244
+  },
+  "regression": {
+    "mae": 20.8977,
+    "rmse": 30.5328,
+    "r2": 0.3975,
+    "adjusted_r2": 0.3617,
+    "abs_residual_vs_fitted_corr": 0.5456,
+    "heteroscedasticity": "present"
+  },
+  "deploy_candidate": "decision_tree",
+  "reload_check": {
+    "original_prediction": 0.0,
+    "reloaded_prediction": 0.0,
+    "match": true
+  }
+}

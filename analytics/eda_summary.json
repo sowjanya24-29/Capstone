@@ -1,0 +1,170 @@
+{
+  "profile_shape": [
+    891,
+    15
+  ],
+  "missing_pct": {
+    "age": 19.8653,
+    "embarked": 0.2245,
+    "deck": 77.2166,
+    "embark_town": 0.2245
+  },
+  "missing_decisions": [
+    {
+      "column": "age",
+      "missing_pct": 19.8653,
+      "action": "median_impute",
+      "impute_value": 28.0
+    },
+    {
+      "column": "embarked",
+      "missing_pct": 0.2245,
+      "action": "drop_rows"
+    },
+    {
+      "column": "deck",
+      "missing_pct": 77.2166,
+      "action": "drop_column"
+    },
+    {
+      "column": "embark_town",
+      "missing_pct": 0.2245,
+      "action": "drop_rows"
+    }
+  ],
+  "rows_after_cleaning": 889,
+  "age_outliers_iqr": {
+    "q1": 20.125,
+    "q3": 38.0,
+    "iqr": 17.875,
+    "low": -6.6875,
+    "high": 64.8125,
+    "outliers": 11
+  },
+  "fare_outliers_iqr": {
+    "q1": 7.9104,
+    "q3": 31.0,
+    "iqr": 23.0896,
+    "low": -26.724,
+    "high": 65.6344,
+    "outliers": 116
+  },
+  "fare_shape": {
+    "mean": 32.204207968574636,
+    "median": 14.4542,
+    "mode": 8.05,
+    "shape": "right-skewed"
+  },
+  "survival": {
+    "by_sex": {
+      "female": 0.7404,
+      "male": 0.1889
+    },
+    "by_pclass": {
+      "1": 0.6262,
+      "2": 0.4728,
+      "3": 0.2424
+    },
+    "by_sex_and_pclass": {
+      "female_pclass_1": 0.9674,
+      "female_pclass_2": 0.9211,
+      "female_pclass_3": 0.5,
+      "male_pclass_1": 0.3689,
+      "male_pclass_2": 0.1574,
+      "male_pclass_3": 0.1354
+    }
+  },
+  "correlation": {
+    "survived": {
+      "survived": 1.0,
+      "pclass": -0.3355,
+      "age": -0.0698,
+      "sibsp": -0.034,
+      "parch": 0.0832,
+      "fare": 0.2553
+    },
+    "pclass": {
+      "survived": -0.3355,
+      "pclass": 1.0,
+      "age": -0.3365,
+      "sibsp": 0.0817,
+      "parch": 0.0168,
+      "fare": -0.5482
+    },
+    "age": {
+      "survived": -0.0698,
+      "pclass": -0.3365,
+      "age": 1.0,
+      "sibsp": -0.2325,
+      "parch": -0.1715,
+      "fare": 0.0937
+    },
+    "sibsp": {
+      "survived": -0.034,
+      "pclass": 0.0817,
+      "age": -0.2325,
+      "sibsp": 1.0,
+      "parch": 0.4145,
+      "fare": 0.1609
+    },
+    "parch": {
+      "survived": 0.0832,
+      "pclass": 0.0168,
+      "age": -0.1715,
+      "sibsp": 0.4145,
+      "parch": 1.0,
+      "fare": 0.2175
+    },
+    "fare": {
+      "survived": 0.2553,
+      "pclass": -0.5482,
+      "age": 0.0937,
+      "sibsp": 0.1609,
+      "parch": 0.2175,
+      "fare": 1.0
+    }
+  },
+  "strongest_correlations": [
+    {
+      "a": "pclass",
+      "b": "fare",
+      "correlation": -0.5482,
+      "abs": 0.5482
+    },
+    {
+      "a": "sibsp",
+      "b": "parch",
+      "correlation": 0.4145,
+      "abs": 0.4145
+    }
+  ],
+  "standardization": {
+    "before": {
+      "age": {
+        "mean": 29.3152,
+        "std": 12.9849
+      },
+      "fare": {
+        "mean": 32.0967,
+        "std": 49.6975
+      }
+    },
+    "after": {
+      "age": {
+        "mean": 0.0,
+        "std": 1.0006
+      },
+      "fare": {
+        "mean": 0.0,
+        "std": 1.0006
+      }
+    }
+  },
+  "class_balance": {
+    "survived_rate": 0.3838,
+    "counts": {
+      "0": 549,
+      "1": 342
+    }
+  }
+}

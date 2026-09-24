@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zepto support</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #14221b;
+      --muted: #5c6b63;
+      --line: #d7e3db;
+      --bg: #f4f7f5;
+      --card: #ffffff;
+      --accent: #0b7a43;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 20px 64px;
+    }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    p.lead { margin: 0 0 24px; color: var(--muted); }
+    form { display: flex; gap: 8px; }
+    input {
+      flex: 1;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font: inherit;
+    }
+    button {
+      border: 0;
+      border-radius: 8px;
+      background: var(--accent);
+      color: white;
+      padding: 12px 16px;
+      font: inherit;
+      cursor: pointer;
+    }
+    button:disabled { opacity: 0.6; cursor: wait; }
+    .examples { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 20px; }
+    .examples button {
+      background: white;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      padding: 6px 10px;
+      font-size: 14px;
+    }
+    #result {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 18px;
+      min-height: 96px;
+    }
+    #result .answer { margin: 0 0 12px; line-height: 1.45; }
+    .meta { color: var(--muted); font-size: 14px; }
+    .error { color: #9b2335; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Zepto support</h1>
+    <p class="lead">Ask about delivery, returns, membership, tracking, cancellation, gift cards, or support hours.</p>
+    <form id="ask-form">
+      <input id="query" name="query" placeholder="What is the delivery fee on a small order?" required />
+      <button type="submit">Ask</button>
+    </form>
+    <div class="examples">
+      <button type="button" data-q="What is the delivery fee on a small order?">Delivery fee</button>
+      <button type="button" data-q="Can I return opened personal care items?">Returns</button>
+      <button type="button" data-q="What is the weather in Paris today?">Not a policy</button>
+    </div>
+    <section id="result" aria-live="polite">
+      <p class="meta">Answers show up here.</p>
+    </section>
+  </main>
+  <script>
+    const form = document.getElementById("ask-form");
+    const query = document.getElementById("query");
+    const result = document.getElementById("result");
+    const submit = form.querySelector("button");
+
+    document.querySelectorAll(".examples button").forEach((button) => {
+      button.addEventListener("click", () => {
+        query.value = button.dataset.q;
+        form.requestSubmit();
+      });
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      submit.disabled = true;
+      result.innerHTML = "<p class='meta'>Looking that up…</p>";
+      try {
+        const response = await fetch("/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: query.value }),
+        });
+        const body = await response.json();
+        if (!response.ok) {
+          throw new Error(body.detail || "Request failed");
+        }
+        const sources = (body.sources || []).join(", ") || "none";
+        result.innerHTML =
+          "<p class='answer'></p><p class='meta'></p>";
+        result.querySelector(".answer").textContent = body.answer;
+        result.querySelector(".meta").textContent =
+          "Sources: " + sources + " · Confidence: " + body.confidence;
+      } catch (error) {
+        result.innerHTML = "<p class='error'></p>";
+        result.querySelector(".error").textContent = error.message;
+      } finally {
+        submit.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
