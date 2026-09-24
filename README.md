@@ -1,6 +1,14 @@
 # Zepto data and AI platform
 
 Capstone for the Certificate Program in Artificial Intelligence and Machine Learning. One repository, three modules:
+## Project Structure
+
+Capstone/
+├── data_pipeline/
+├── analytics/
+├── support_assistant/
+├── README.md
+└── .gitignore
 
 | Folder | Role | Marks |
 | --- | --- | --- |
